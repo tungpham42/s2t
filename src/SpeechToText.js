@@ -1,56 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { Container, Button, Form, Alert } from "react-bootstrap";
-
-const useSpeechRecognition = (setError, setTranscript) => {
-  const [recognition, setRecognition] = useState(null);
-  const [language, setLanguage] = useState("en-US"); // Default language
-
-  useEffect(() => {
-    if (!("webkitSpeechRecognition" in window)) {
-      setError("Speech recognition not supported by this browser.");
-      return; // Early return
-    }
-
-    const recognitionInstance = new window.webkitSpeechRecognition();
-    recognitionInstance.continuous = true;
-    recognitionInstance.interimResults = true;
-
-    recognitionInstance.onresult = (event) => {
-      const finalResults = Array.from(event.results)
-        .slice(event.resultIndex)
-        .filter((result) => result.isFinal)
-        .map((result) => result[0].transcript.replace(/period/gi, "."))
-        .join("");
-      setTranscript((prev) => prev + finalResults);
-    };
-
-    recognitionInstance.onerror = (event) => {
-      setError(`Error occurred in recognition: ${event.error}`);
-    };
-
-    // Set language based on the state
-    recognitionInstance.lang = language;
-
-    setRecognition(recognitionInstance);
-  }, [setError, setTranscript, language]);
-
-  // Function to change recognition language
-  const changeLanguage = (newLanguage) => {
-    setLanguage(newLanguage);
-  };
-
-  return { recognition, changeLanguage };
-};
-
-const downloadFile = (content, filename, type) => {
-  const blob = new Blob([content], { type });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-};
+import useSpeechRecognition from "./useSpeechRecognition";
+import downloadFile from "./downloadFile";
+import languages from "./languages";
 
 const SpeechToText = () => {
   const [transcript, setTranscript] = useState("");
@@ -104,19 +56,11 @@ const SpeechToText = () => {
             onChange={handleLanguageChange}
             className="mb-3"
           >
-            <option value="en-US">English (US)</option>
-            <option value="vi">Vietnamese</option>
-            <option value="zh-CN">Chinese (Simplified)</option>
-            <option value="zh-TW">Chinese (Traditional)</option>
-            <option value="ko">Korean</option>
-            <option value="ja">Japanese</option>
-            <option value="fr">French</option>
-            <option value="de">German</option>
-            <option value="es">Spanish</option>
-            <option value="pt">Portuguese</option>
-            <option value="ar">Arabic</option>
-            <option value="ru">Russian</option>
-            {/* Add more languages as needed */}
+            {languages.map((language) => (
+              <option key={language.code} value={language.code}>
+                {language.name}
+              </option>
+            ))}
           </Form.Select>
         </Form.Group>
         <Form.Group controlId="transcriptTextarea">
