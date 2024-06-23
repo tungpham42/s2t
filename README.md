@@ -1,5 +1,7 @@
 # DEMO URL: [https://tungpham42.github.io/s2t/](https://tungpham42.github.io/s2t/)
 
+## With the help of Google Gemini
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
