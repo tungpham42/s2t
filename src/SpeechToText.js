@@ -1,5 +1,12 @@
 import React, { useState, useCallback } from "react";
 import { Container, Button, Form, Alert } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMicrophone,
+  faMicrophoneSlash,
+  faDownload,
+  faRedoAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import useSpeechRecognition from "./useSpeechRecognition";
 import downloadFile from "./downloadFile";
 import languages from "./languages";
@@ -72,7 +79,15 @@ const SpeechToText = () => {
           className="mt-3 me-3"
           onClick={isRecording ? stopRecording : startRecording}
         >
-          {isRecording ? "Stop Recording" : "Start Recording"}
+          {isRecording ? (
+            <>
+              <FontAwesomeIcon icon={faMicrophoneSlash} /> Stop Recording
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon icon={faMicrophone} /> Start Recording
+            </>
+          )}
         </Button>
         <Button
           variant="success"
@@ -80,7 +95,7 @@ const SpeechToText = () => {
           className="mt-3 me-3"
           disabled={!transcript}
         >
-          Download TXT
+          <FontAwesomeIcon icon={faDownload} /> Download TXT
         </Button>
         <Button
           variant="secondary"
@@ -88,7 +103,7 @@ const SpeechToText = () => {
           className="mt-3"
           disabled={!transcript}
         >
-          Reset
+          <FontAwesomeIcon icon={faRedoAlt} /> Reset
         </Button>
       </Form>
     </Container>
