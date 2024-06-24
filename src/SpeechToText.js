@@ -81,11 +81,11 @@ const SpeechToText = () => {
         >
           {isRecording ? (
             <>
-              <FontAwesomeIcon icon={faMicrophoneSlash} /> Stop Recording
+              <FontAwesomeIcon icon={faMicrophoneSlash} /> Stop
             </>
           ) : (
             <>
-              <FontAwesomeIcon icon={faMicrophone} /> Start Recording
+              <FontAwesomeIcon icon={faMicrophone} /> Start
             </>
           )}
         </Button>
